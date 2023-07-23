@@ -59,7 +59,7 @@
         "id": "c08fd05c1609c0e0",
         "type": "server-state-changed",
         "z": "2bd2274e789770f9",
-        "name": "Alex not Home",
+        "name": "Alex Away",
         "server": "620f3a55dd509088",
         "version": 4,
         "exposeToHomeAssistant": false,
@@ -104,7 +104,7 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 140,
+        "x": 120,
         "y": 460,
         "wires": [
             [
@@ -117,7 +117,7 @@
         "id": "95c79ded7353da3d",
         "type": "server-state-changed",
         "z": "2bd2274e789770f9",
-        "name": "Tatyana not Home",
+        "name": "Tatyana Away",
         "server": "620f3a55dd509088",
         "version": 4,
         "exposeToHomeAssistant": false,
@@ -162,7 +162,7 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 150,
+        "x": 130,
         "y": 580,
         "wires": [
             [
@@ -194,12 +194,12 @@
         "id": "6eac1654075bfd64",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "Send Command",
+        "name": "Prompt: Start Desdemona?",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1260,
-        "y": 620,
+        "x": 1400,
+        "y": 520,
         "wires": [
             []
         ]
@@ -210,10 +210,10 @@
         "z": "2bd2274e789770f9",
         "name": "For 10 minutes",
         "op1": "",
-        "op2": "{\"type\":\"message\",\"chatId\":\"109994530\",\"content\":\"Everyone left\"}",
+        "op2": "{\"type\":\"message\",\"chatId\":-911951572,\"content\":\"Everyone left\"}",
         "op1type": "nul",
         "op2type": "json",
-        "duration": "1",
+        "duration": "10",
         "extend": false,
         "overrideDelay": false,
         "units": "min",
@@ -222,11 +222,10 @@
         "topic": "topic",
         "outputs": 1,
         "x": 680,
-        "y": 620,
+        "y": 520,
         "wires": [
             [
-                "3e8f64d2da52db09",
-                "d8c1465bb39e9497"
+                "3e8f64d2da52db09"
             ]
         ]
     },
@@ -243,7 +242,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
+        "x": 1340,
         "y": 440,
         "wires": []
     },
@@ -367,15 +366,15 @@
         "id": "3e8f64d2da52db09",
         "type": "function",
         "z": "2bd2274e789770f9",
-        "name": "Start Desdemona?",
-        "func": "var payload = {\n    \"type\": \"message\",\n    \"chatId\": \"109994530\",\n    \"content\": \"Do you want to start Desdomna?\",\n    \"options\": {\n        \"reply_markup\": JSON.stringify({\n            \"inline_keyboard\": [[\n                {\n                    \"text\": \"No\",\n                    \"callback_data\": \"desdemona.no\"\n                },\n                {\n                    \"text\": \"Kitchen x2 + rest\",\n                    \"callback_data\": \"desdemona.kitchen.x2.rest\"\n                },\n                {\n                    \"text\": \"Kitchen x2 only\",\n                    \"callback_data\": \"desdemona.kitchen.x2\"\n                },\n                {\n                    \"text\": \"Full\",\n                    \"callback_data\": \"desdemona.full\"\n                }]]\n            }\n        )\n    },\n    \"error\": false\n}\n\nreturn {\n    \"payload\": payload\n}\n",
+        "name": "Start Desdemona? Payload",
+        "func": "var payload = {\n    type: \"message\",\n    chatId: -911951572,\n    content: \"Do you want to start Desdomna?\",\n    options: {\n        reply_markup: JSON.stringify({\n            inline_keyboard: [\n                [\n                    {\n                        text: \"No\",\n                        callback_data: \"desdemona.no\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Kitchen x2 + rest\",\n                        callback_data: \"desdemona.kitchen.x2.rest\"\n                    },\n                    {\n                        text: \"Kitchen x2 only\",\n                        callback_data: \"desdemona.kitchen.x2\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Full\",\n                        callback_data: \"desdemona.full\"\n                    }\n                ]]\n            }\n        )\n    },\n    error: false\n}\n\nreturn {\n    \"payload\": payload\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 920,
-        "y": 620,
+        "x": 1000,
+        "y": 520,
         "wires": [
             [
                 "6eac1654075bfd64",
@@ -404,7 +403,7 @@
         "type": "function",
         "z": "2bd2274e789770f9",
         "name": "Desdemona Callback",
-        "func": "const content = msg.payload.content;\nif (!content.startsWith(\"desdemona.\")) {\n    return;\n}\n\nconst action = content.substring(\"desdemona.\".length);\n\nconst result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: msg.payload.chatId\n    }\n}\n\nif (action == \"no\") {\n    result.payload.content = \"Ok! Let's clean next time ;)\";\n    return [result, null, null, null, null];\n} else if (action == \"kitchen.x2.rest\") {\n    result.payload.content = \"Will clean kitchen twice first and then rest (Not implemented yet :()\";\n    return [null, result, null, null, null];\n} else if (action == \"kitchen.x2\") {\n    result.payload.content = \"Will clean kitchen twice only (Not implemented yet :()\";\n    return [null, null, result, null, null];\n} else if (action == \"full\") {\n    result.payload.content = \"Will perform full clean (Not implemented yet :()\";\n    return [null, null, null, result, null];\n} else {\n    result.payload.content = `Unknow command ${action}`;\n    return [null, null, null, null, msg];\n}\n",
+        "func": "const content = msg.payload.content;\nif (!content.startsWith(\"desdemona.\")) {\n    return;\n}\n\nconst action = content.substring(\"desdemona.\".length);\n\nconst result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: msg.payload.chatId,\n    },\n}\n\nif (action == \"no\") {\n    result.payload.content = \"Ok! Let's clean next time ;)\";\n    return [result, null, null, null, null];\n} else if (action == \"kitchen.x2.rest\") {\n    result.payload.content = \"Will clean kitchen twice first and then rest (Not implemented yet :()\";\n    return [null, result, null, null, null];\n} else if (action == \"kitchen.x2\") {\n    result.payload.content = \"Will clean kitchen twice only (Not implemented yet :()\";\n    return [null, null, result, null, null];\n} else if (action == \"full\") {\n    result.payload.content = \"Will perform full clean (Not implemented yet :()\";\n    return [null, null, null, result, null];\n} else {\n    result.payload.content = `Unknow command ${action}`;\n    return [null, null, null, null, msg];\n}\n",
         "outputs": 5,
         "noerr": 0,
         "initialize": "",
@@ -414,16 +413,20 @@
         "y": 1000,
         "wires": [
             [
-                "543156828cfb4e5a"
+                "543156828cfb4e5a",
+                "0a2aab0e6fc1b742"
             ],
             [
-                "663da4bdee567fa2"
+                "663da4bdee567fa2",
+                "0a2aab0e6fc1b742"
             ],
             [
-                "e9d9cbe925f09652"
+                "e9d9cbe925f09652",
+                "0a2aab0e6fc1b742"
             ],
             [
-                "f8776667fd6fcd84"
+                "f8776667fd6fcd84",
+                "0a2aab0e6fc1b742"
             ],
             [
                 "7aef59d33e4d627c"
@@ -434,11 +437,11 @@
         "id": "543156828cfb4e5a",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "No cleaning",
+        "name": "Reply: No cleaning",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1030,
+        "x": 1050,
         "y": 880,
         "wires": [
             [
@@ -450,11 +453,11 @@
         "id": "663da4bdee567fa2",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "Kitchen x2 + Rest",
+        "name": "Reply: Kitchen x2 + Rest",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1050,
+        "x": 1070,
         "y": 940,
         "wires": [
             [
@@ -466,11 +469,11 @@
         "id": "e9d9cbe925f09652",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "Kitchen x2",
+        "name": "Reply: Kitchen x2",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1030,
+        "x": 1050,
         "y": 1000,
         "wires": [
             [
@@ -482,11 +485,11 @@
         "id": "f8776667fd6fcd84",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "Full",
+        "name": "Reply: Full",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1010,
+        "x": 1030,
         "y": 1060,
         "wires": [
             [
@@ -498,11 +501,11 @@
         "id": "7aef59d33e4d627c",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "Unknown command",
+        "name": "Reply: Unknown command",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1060,
+        "x": 1080,
         "y": 1120,
         "wires": [
             [
@@ -526,5 +529,40 @@
         "x": 1520,
         "y": 980,
         "wires": []
+    },
+    {
+        "id": "0a2aab0e6fc1b742",
+        "type": "function",
+        "z": "2bd2274e789770f9",
+        "name": "Clear Keyboard",
+        "func": "var reply_markup = JSON.stringify({\n    \"inline_keyboard\": []\n});\n\n\nreturn {\n    payload: {\n        type: \"editMessageReplyMarkup\",\n        content: reply_markup,\n        options: {\n            chat_id: msg.callbackQuery.payload.chatId,\n            reply_markup: reply_markup,\n            message_id: msg.callbackQuery.payload.messageId\n        }\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 720,
+        "wires": [
+            [
+                "637d082476a27a7b"
+            ]
+        ]
+    },
+    {
+        "id": "637d082476a27a7b",
+        "type": "telegram sender",
+        "z": "2bd2274e789770f9",
+        "name": "Send clear keyboard",
+        "bot": "4a03965dbf126e99",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1300,
+        "y": 720,
+        "wires": [
+            [
+                "4988483d4406e7f1"
+            ]
+        ]
     }
 ]
