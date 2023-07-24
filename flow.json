@@ -116,23 +116,12 @@
         "id": "992fe6318c940311",
         "type": "junction",
         "z": "1340a20ad4b7ee0e",
-        "x": 1380,
-        "y": 420,
-        "wires": [
-            [
-                "a39a7a445c92e6f2"
-            ]
-        ]
-    },
-    {
-        "id": "eb6976c864756f6a",
-        "type": "junction",
-        "z": "1340a20ad4b7ee0e",
-        "x": 1500,
+        "x": 1300,
         "y": 160,
         "wires": [
             [
-                "7b238122fcd3249b"
+                "a39a7a445c92e6f2",
+                "99fa90bc309a073c"
             ]
         ]
     },
@@ -140,12 +129,100 @@
         "id": "4bc470be7f7422f2",
         "type": "junction",
         "z": "1340a20ad4b7ee0e",
-        "x": 860,
-        "y": 160,
+        "x": 998.0952326059341,
+        "y": 168.25396370887756,
         "wires": [
             [
                 "4724d8d6f030143b",
                 "ab003187fe7a5651"
+            ]
+        ]
+    },
+    {
+        "id": "87bf47b636fc48e9",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 1000,
+        "y": 400,
+        "wires": [
+            [
+                "34f80742832132bb",
+                "747714e5a9ee2e55",
+                "f9517612a8ef9028"
+            ]
+        ]
+    },
+    {
+        "id": "09fa53ad8450545f",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 899.5714285373688,
+        "y": 167.42857146263123,
+        "wires": [
+            [
+                "4bc470be7f7422f2",
+                "87bf47b636fc48e9"
+            ]
+        ]
+    },
+    {
+        "id": "76ec08fb8ef98996",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 1300,
+        "y": 400,
+        "wires": [
+            [
+                "096ac0b4fc4def64",
+                "5e541a6642b736ad"
+            ]
+        ]
+    },
+    {
+        "id": "5e541a6642b736ad",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 1340,
+        "y": 360,
+        "wires": [
+            [
+                "fa3239fa189ae15a"
+            ]
+        ]
+    },
+    {
+        "id": "fa3239fa189ae15a",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 1640,
+        "y": 360,
+        "wires": [
+            [
+                "337fbfce67d12fe5"
+            ]
+        ]
+    },
+    {
+        "id": "99fa90bc309a073c",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 1340,
+        "y": 120,
+        "wires": [
+            [
+                "fd124618c2ad1841"
+            ]
+        ]
+    },
+    {
+        "id": "fd124618c2ad1841",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 1640,
+        "y": 120,
+        "wires": [
+            [
+                "7b238122fcd3249b"
             ]
         ]
     },
@@ -1428,14 +1505,10 @@
         "props": [
             {
                 "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
             }
         ],
         "repeat": "",
-        "crontab": "00 09 * * *",
+        "crontab": "0 19-22 * * *",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
@@ -1445,7 +1518,7 @@
         "y": 160,
         "wires": [
             [
-                "91f5922e26ae5287"
+                "72b861115ed417c6"
             ]
         ]
     },
@@ -1453,7 +1526,7 @@
         "id": "4724d8d6f030143b",
         "type": "api-current-state",
         "z": "1340a20ad4b7ee0e",
-        "name": "",
+        "name": "Is door locked?",
         "server": "620f3a55dd509088",
         "version": 3,
         "outputs": 1,
@@ -1491,12 +1564,11 @@
         "override_payload": "msg",
         "entity_location": "data",
         "override_data": "msg",
-        "x": 1110,
-        "y": 160,
+        "x": 1140,
+        "y": 120,
         "wires": [
             [
-                "992fe6318c940311",
-                "eb6976c864756f6a"
+                "992fe6318c940311"
             ]
         ]
     },
@@ -1520,7 +1592,7 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 1830,
+        "x": 1750,
         "y": 160,
         "wires": [
             [
@@ -1532,7 +1604,7 @@
         "id": "a39a7a445c92e6f2",
         "type": "trigger",
         "z": "1340a20ad4b7ee0e",
-        "name": "",
+        "name": "Wait 2s",
         "op1": "",
         "op2": "0",
         "op1type": "nul",
@@ -1545,8 +1617,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 1480,
-        "y": 420,
+        "x": 1400,
+        "y": 200,
         "wires": [
             [
                 "9ff53f29d5af6344"
@@ -1557,7 +1629,7 @@
         "id": "9ff53f29d5af6344",
         "type": "change",
         "z": "1340a20ad4b7ee0e",
-        "name": "",
+        "name": "Set complete",
         "rules": [
             {
                 "t": "set",
@@ -1582,8 +1654,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1640,
-        "y": 260,
+        "x": 1570,
+        "y": 200,
         "wires": [
             [
                 "7b238122fcd3249b"
@@ -1594,7 +1666,7 @@
         "id": "ab003187fe7a5651",
         "type": "api-current-state",
         "z": "1340a20ad4b7ee0e",
-        "name": "",
+        "name": "Car location",
         "server": "620f3a55dd509088",
         "version": 3,
         "outputs": 1,
@@ -1632,12 +1704,11 @@
         "override_payload": "msg",
         "entity_location": "data",
         "override_data": "msg",
-        "x": 1140,
-        "y": 260,
+        "x": 1130,
+        "y": 200,
         "wires": [
             [
-                "992fe6318c940311",
-                "eb6976c864756f6a"
+                "992fe6318c940311"
             ]
         ]
     },
@@ -1652,7 +1723,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2210,
+        "x": 1990,
         "y": 160,
         "wires": [
             [
@@ -1668,8 +1739,8 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 2550,
-        "y": 160,
+        "x": 2300,
+        "y": 280,
         "wires": [
             []
         ]
@@ -1693,8 +1764,8 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "last",
-        "x": 420,
-        "y": 160,
+        "x": 760,
+        "y": 40,
         "wires": [
             [
                 "893b0432f14a01ec"
@@ -1718,11 +1789,404 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
+        "x": 1000,
+        "y": 40,
+        "wires": [
+            [
+                "09fa53ad8450545f"
+            ]
+        ]
+    },
+    {
+        "id": "34f80742832132bb",
+        "type": "api-current-state",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Battery Level",
+        "server": "620f3a55dd509088",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "entity_id": "sensor.niro_ev_ev_battery_level",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 1130,
+        "y": 400,
+        "wires": [
+            [
+                "76ec08fb8ef98996"
+            ]
+        ]
+    },
+    {
+        "id": "747714e5a9ee2e55",
+        "type": "api-current-state",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Charging Plug state",
+        "server": "620f3a55dd509088",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "entity_id": "binary_sensor.niro_ev_ev_battery_plug",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 1150,
+        "y": 480,
+        "wires": [
+            [
+                "76ec08fb8ef98996"
+            ]
+        ]
+    },
+    {
+        "id": "096ac0b4fc4def64",
+        "type": "trigger",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Wait 2",
+        "op1": "",
+        "op2": "0",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1390,
+        "y": 440,
+        "wires": [
+            [
+                "5a8e4288a2eaf9af"
+            ]
+        ]
+    },
+    {
+        "id": "5a8e4288a2eaf9af",
+        "type": "change",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Set complete",
+        "rules": [
+            {
+                "t": "set",
+                "p": "complete",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1570,
+        "y": 440,
+        "wires": [
+            [
+                "337fbfce67d12fe5"
+            ]
+        ]
+    },
+    {
+        "id": "337fbfce67d12fe5",
+        "type": "join",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1750,
+        "y": 400,
+        "wires": [
+            [
+                "40bdeceffb65bf9a"
+            ]
+        ]
+    },
+    {
+        "id": "40bdeceffb65bf9a",
+        "type": "function",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Prepare Telegram Message if needed",
+        "func": "if (msg.payload[\"sensor.niro_ev_ev_battery_level\"] < 40 &&\n    msg.payload[\"binary_sensor.niro_ev_ev_battery_plug\"] == \"off\" &&\n    msg.payload[\"device_tracker.niro_ev_location\"] == \"home\") {\n    return {\n        payload: {\n            type: \"message\",\n            chatId: -911951572,\n            content: `Niro EV batter level is ${msg.payload[\"sensor.niro_ev_ev_battery_level\"]}%! Don't forget to charge it!`\n        }\n    }\n}\n\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1990,
+        "y": 400,
+        "wires": [
+            [
+                "c0b04abfdcc3596d"
+            ]
+        ]
+    },
+    {
+        "id": "72b861115ed417c6",
+        "type": "api-current-state",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Update At",
+        "server": "620f3a55dd509088",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "entity_id": "sensor.niro_ev_last_updated_at",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "d17929cdd716e092"
+            ]
+        ]
+    },
+    {
+        "id": "d17929cdd716e092",
+        "type": "function",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Update age is more 30 min",
+        "func": "const timeStamp = Date.parse(msg.payload)\n\nconst now = Date.now();\n\nmsg.updated_at = timeStamp;\nmsg.now = now;\nmsg.diff = now - timeStamp;\n\nconst millisecondsIn30Minutes = 60 * 60 * 30 * 1000;\nmsg.payload = msg.diff > millisecondsIn30Minutes;\n\nif (msg.payload) {\n    return [msg, null];\n}\n\nreturn [null, msg]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 660,
         "y": 160,
         "wires": [
             [
+                "91f5922e26ae5287"
+            ],
+            [
+                "09fa53ad8450545f"
+            ]
+        ],
+        "outputLabels": [
+            "stale",
+            "fresh"
+        ]
+    },
+    {
+        "id": "d49fbc079a34a6e2",
+        "type": "inject",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Debug Battery Level Check",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 780,
+        "y": 460,
+        "wires": [
+            [
+                "87bf47b636fc48e9"
+            ]
+        ]
+    },
+    {
+        "id": "5f311707f4eff0d9",
+        "type": "inject",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Debug Lock Check",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 810,
+        "y": 240,
+        "wires": [
+            [
                 "4bc470be7f7422f2"
+            ]
+        ]
+    },
+    {
+        "id": "f9517612a8ef9028",
+        "type": "api-current-state",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Car location",
+        "server": "620f3a55dd509088",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "entity_id": "device_tracker.niro_ev_location",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 1130,
+        "y": 320,
+        "wires": [
+            [
+                "76ec08fb8ef98996"
             ]
         ]
     }
