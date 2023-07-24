@@ -80,6 +80,31 @@
         ]
     },
     {
+        "id": "d7b66934858fcf55",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 1540,
+        "y": 800,
+        "wires": [
+            [
+                "fef0810c073ba629"
+            ]
+        ]
+    },
+    {
+        "id": "ef15da8fe3c73c9d",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 700,
+        "y": 600,
+        "wires": [
+            [
+                "7f2f77558a821600",
+                "5d1491aba71770e5"
+            ]
+        ]
+    },
+    {
         "id": "620f3a55dd509088",
         "type": "server",
         "name": "Home",
@@ -271,7 +296,9 @@
         "x": 1640,
         "y": 520,
         "wires": [
-            []
+            [
+                "bef53fd5adf4ac69"
+            ]
         ]
     },
     {
@@ -465,20 +492,20 @@
         "y": 1000,
         "wires": [
             [
-                "543156828cfb4e5a",
-                "4fd152e00c0ab0dc"
+                "4fd152e00c0ab0dc",
+                "543156828cfb4e5a"
             ],
             [
-                "f8776667fd6fcd84",
-                "4fd152e00c0ab0dc"
+                "4fd152e00c0ab0dc",
+                "f8776667fd6fcd84"
             ],
             [
-                "e9d9cbe925f09652",
-                "4fd152e00c0ab0dc"
+                "4fd152e00c0ab0dc",
+                "e9d9cbe925f09652"
             ],
             [
-                "663da4bdee567fa2",
-                "4fd152e00c0ab0dc"
+                "4fd152e00c0ab0dc",
+                "663da4bdee567fa2"
             ],
             [
                 "7aef59d33e4d627c"
@@ -496,7 +523,9 @@
         "x": 1290,
         "y": 880,
         "wires": [
-            []
+            [
+                "d7b66934858fcf55"
+            ]
         ]
     },
     {
@@ -511,7 +540,8 @@
         "y": 1060,
         "wires": [
             [
-                "34f6389ac78ce5f0"
+                "34f6389ac78ce5f0",
+                "d7b66934858fcf55"
             ]
         ]
     },
@@ -527,7 +557,8 @@
         "y": 1000,
         "wires": [
             [
-                "927aed1a47bb6481"
+                "927aed1a47bb6481",
+                "d7b66934858fcf55"
             ]
         ]
     },
@@ -543,7 +574,8 @@
         "y": 940,
         "wires": [
             [
-                "2d3a7acd14c5e9d6"
+                "2d3a7acd14c5e9d6",
+                "d7b66934858fcf55"
             ]
         ]
     },
@@ -558,7 +590,9 @@
         "x": 1320,
         "y": 1120,
         "wires": [
-            []
+            [
+                "d7b66934858fcf55"
+            ]
         ]
     },
     {
@@ -644,7 +678,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1650,
+        "x": 1890,
         "y": 940,
         "wires": [
             []
@@ -671,7 +705,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1670,
+        "x": 1910,
         "y": 1000,
         "wires": [
             []
@@ -698,7 +732,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1690,
+        "x": 1930,
         "y": 1060,
         "wires": [
             []
@@ -760,7 +794,7 @@
             }
         ],
         "x": 170,
-        "y": 1260,
+        "y": 1440,
         "wires": [
             [
                 "e7abb81ca13ced55"
@@ -780,7 +814,7 @@
         "finalize": "",
         "libs": [],
         "x": 650,
-        "y": 1260,
+        "y": 1440,
         "wires": [
             [
                 "d8e4de1c6b04d062"
@@ -796,7 +830,7 @@
         "haserroroutput": false,
         "outputs": 1,
         "x": 1070,
-        "y": 1260,
+        "y": 1440,
         "wires": [
             []
         ]
@@ -822,8 +856,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1320,
-        "y": 780,
+        "x": 1700,
+        "y": 980,
         "wires": [
             [
                 "927aed1a47bb6481"
@@ -851,8 +885,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1300,
-        "y": 820,
+        "x": 1680,
+        "y": 1040,
         "wires": [
             [
                 "34f6389ac78ce5f0"
@@ -1219,6 +1253,125 @@
         "wires": [
             [
                 "31a98053936316fc"
+            ]
+        ]
+    },
+    {
+        "id": "bef53fd5adf4ac69",
+        "type": "trigger",
+        "z": "2bd2274e789770f9",
+        "name": "Wait for 10 minutes to answer",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "payl",
+        "duration": "10",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "topic",
+        "topic": "sentMessageId",
+        "outputs": 1,
+        "x": 2030,
+        "y": 520,
+        "wires": [
+            [
+                "ef15da8fe3c73c9d"
+            ]
+        ]
+    },
+    {
+        "id": "fef0810c073ba629",
+        "type": "change",
+        "z": "2bd2274e789770f9",
+        "name": "Reset wait 10 minutes trigger",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "sentMessageId",
+                "pt": "msg",
+                "to": "callbackQuery.payload.messageId",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1700,
+        "y": 800,
+        "wires": [
+            [
+                "bef53fd5adf4ac69"
+            ]
+        ]
+    },
+    {
+        "id": "7f2f77558a821600",
+        "type": "function",
+        "z": "2bd2274e789770f9",
+        "name": "Replay about timeout",
+        "func": "const result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: -911951572,\n        content: \"There is not answer in 10 minutes, closing prompt :(\",\n    },\n}\n\nreturn result;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 620,
+        "wires": [
+            [
+                "c7a81e41eaef20fb"
+            ]
+        ]
+    },
+    {
+        "id": "c7a81e41eaef20fb",
+        "type": "telegram sender",
+        "z": "2bd2274e789770f9",
+        "name": "Reply: No answer...",
+        "bot": "4a03965dbf126e99",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1670,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d1491aba71770e5",
+        "type": "change",
+        "z": "2bd2274e789770f9",
+        "name": "Prepare callbackQuery property",
+        "rules": [
+            {
+                "t": "set",
+                "p": "callbackQuery",
+                "pt": "msg",
+                "to": "{\t   \"payload\": {\t       \"chatId\": msg.payload.chatId,\t       \"messageId\": msg.payload.sentMessageId\t    }\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 910,
+        "y": 720,
+        "wires": [
+            [
+                "4fd152e00c0ab0dc"
             ]
         ]
     }
