@@ -8,6 +8,78 @@
         "env": []
     },
     {
+        "id": "4fd152e00c0ab0dc",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 1140,
+        "y": 720,
+        "wires": [
+            [
+                "0a2aab0e6fc1b742"
+            ]
+        ]
+    },
+    {
+        "id": "0b2a1929c976a826",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 740,
+        "y": 520,
+        "wires": [
+            [
+                "4a5f7f0c50fca5e3"
+            ]
+        ]
+    },
+    {
+        "id": "9e4c19de58c83b39",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 300,
+        "y": 240,
+        "wires": [
+            [
+                "51d9314cfc985fb3"
+            ]
+        ]
+    },
+    {
+        "id": "6ad554b7a44e1d7b",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 660,
+        "y": 240,
+        "wires": [
+            [
+                "51d9314cfc985fb3"
+            ]
+        ]
+    },
+    {
+        "id": "31a98053936316fc",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 280,
+        "y": 680,
+        "wires": [
+            [
+                "38517e7ba1480686"
+            ]
+        ]
+    },
+    {
+        "id": "a0e4e066f07d58cf",
+        "type": "junction",
+        "z": "2bd2274e789770f9",
+        "x": 580,
+        "y": 500,
+        "wires": [
+            [
+                "a077d7e83e2e22df"
+            ]
+        ]
+    },
+    {
         "id": "620f3a55dd509088",
         "type": "server",
         "name": "Home",
@@ -59,7 +131,7 @@
         "id": "c08fd05c1609c0e0",
         "type": "server-state-changed",
         "z": "2bd2274e789770f9",
-        "name": "Alex not Home",
+        "name": "Alex location changed",
         "server": "620f3a55dd509088",
         "version": 4,
         "exposeToHomeAssistant": false,
@@ -77,10 +149,10 @@
         "entityidfiltertype": "exact",
         "outputinitially": false,
         "state_type": "str",
-        "haltifstate": "home",
+        "haltifstate": "",
         "halt_if_type": "str",
         "halt_if_compare": "is_not",
-        "outputs": 2,
+        "outputs": 1,
         "output_only_on_state_change": true,
         "for": "0",
         "forType": "num",
@@ -94,8 +166,8 @@
             {
                 "property": "payload",
                 "propertyType": "msg",
-                "value": "true",
-                "valueType": "bool"
+                "value": "",
+                "valueType": "entityState"
             },
             {
                 "property": "topic",
@@ -104,20 +176,19 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 140,
-        "y": 460,
+        "x": 160,
+        "y": 400,
         "wires": [
             [
-                "4a5f7f0c50fca5e3"
-            ],
-            []
+                "51d9314cfc985fb3"
+            ]
         ]
     },
     {
         "id": "95c79ded7353da3d",
         "type": "server-state-changed",
         "z": "2bd2274e789770f9",
-        "name": "Tatyana not Home",
+        "name": "Tatyana location changed",
         "server": "620f3a55dd509088",
         "version": 4,
         "exposeToHomeAssistant": false,
@@ -135,10 +206,10 @@
         "entityidfiltertype": "exact",
         "outputinitially": false,
         "state_type": "str",
-        "haltifstate": "home",
+        "haltifstate": "",
         "halt_if_type": "str",
         "halt_if_compare": "is_not",
-        "outputs": 2,
+        "outputs": 1,
         "output_only_on_state_change": true,
         "for": "0",
         "forType": "num",
@@ -152,8 +223,8 @@
             {
                 "property": "payload",
                 "propertyType": "msg",
-                "value": "true",
-                "valueType": "bool"
+                "value": "",
+                "valueType": "entityState"
             },
             {
                 "property": "topic",
@@ -162,13 +233,12 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 150,
-        "y": 580,
+        "x": 170,
+        "y": 500,
         "wires": [
             [
-                "4a5f7f0c50fca5e3"
-            ],
-            []
+                "51d9314cfc985fb3"
+            ]
         ]
     },
     {
@@ -176,13 +246,13 @@
         "type": "function",
         "z": "2bd2274e789770f9",
         "name": "AND",
-        "func": "var sensorName = msg.topic; // Assuming the topic contains the sensor name\nvar sensorState = msg.payload;\nvar sensorStates = context.get(\"sensorStates\");\n\nsensorStates[sensorName] = sensorState;\n\nvar collectedSensors = [];\nfor (var sensor in sensorStates) {\n    if (sensorStates[sensor]) {\n        collectedSensors.push(sensor)\n    }\n}\n\nreturn {\n    payload: collectedSensors.length == 2\n};\n",
+        "func": "var readyStates = context.get(\"readyStates\");\n\n// topic is a entity id and payload is true/false\nreadyStates[msg.topic] = msg.payload;\n\nconst readyTopics = [];\nfor (var topic in readyStates) {\n    if (readyStates[topic]) {\n        readyTopics.push(topic);\n    }\n}\n\nconst ready = readyTopics.length == 3;\n\nif (context.get(\"ready\") === ready) {\n    return null;\n}\n\ncontext.set(\"ready\", ready);\n\nreturn {\n    payload: ready,\n    readyTopics: readyTopics,\n};\n",
         "outputs": 1,
         "noerr": 0,
-        "initialize": "// Code added here will be run once\n// whenever the node is started.\n// Initialize the context variable to store the sensor states\ncontext.set(\"sensorStates\", {});",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n// Initialize the context variable to store the sensor states\ncontext.set(\"readyStates\", {});\ncontext.set(\"ready\", false);",
         "finalize": "",
         "libs": [],
-        "x": 450,
+        "x": 850,
         "y": 520,
         "wires": [
             [
@@ -198,7 +268,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1460,
+        "x": 1640,
         "y": 520,
         "wires": [
             []
@@ -221,7 +291,7 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 680,
+        "x": 1040,
         "y": 520,
         "wires": [
             [
@@ -233,7 +303,7 @@
         "id": "415d98b5466ee1b7",
         "type": "inject",
         "z": "2bd2274e789770f9",
-        "name": "Tatyana Away",
+        "name": "Tatyana at Costco",
         "props": [
             {
                 "p": "payload"
@@ -248,13 +318,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "device_tracker.tatsianas_iphone",
-        "payload": "true",
-        "payloadType": "bool",
-        "x": 150,
-        "y": 700,
+        "payload": "costco",
+        "payloadType": "str",
+        "x": 490,
+        "y": 240,
         "wires": [
             [
-                "4a5f7f0c50fca5e3"
+                "6ad554b7a44e1d7b"
             ]
         ]
     },
@@ -262,7 +332,7 @@
         "id": "8f013009a576dca9",
         "type": "inject",
         "z": "2bd2274e789770f9",
-        "name": "Tatyana at Home",
+        "name": "Tatyan at Home",
         "props": [
             {
                 "p": "payload"
@@ -277,13 +347,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "device_tracker.tatsianas_iphone",
-        "payload": "false",
-        "payloadType": "bool",
-        "x": 160,
-        "y": 740,
+        "payload": "home",
+        "payloadType": "str",
+        "x": 480,
+        "y": 280,
         "wires": [
             [
-                "4a5f7f0c50fca5e3"
+                "6ad554b7a44e1d7b"
             ]
         ]
     },
@@ -291,7 +361,7 @@
         "id": "cd397820227432d9",
         "type": "inject",
         "z": "2bd2274e789770f9",
-        "name": "Alex Away",
+        "name": "Alex at Costco",
         "props": [
             {
                 "p": "payload"
@@ -306,13 +376,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "device_tracker.werwolf_iphone",
-        "payload": "true",
-        "payloadType": "bool",
-        "x": 140,
+        "payload": "costco",
+        "payloadType": "str",
+        "x": 150,
         "y": 240,
         "wires": [
             [
-                "4a5f7f0c50fca5e3"
+                "9e4c19de58c83b39"
             ]
         ]
     },
@@ -335,13 +405,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "device_tracker.werwolf_iphone",
-        "payload": "false",
-        "payloadType": "bool",
+        "payload": "home",
+        "payloadType": "str",
         "x": 150,
         "y": 280,
         "wires": [
             [
-                "4a5f7f0c50fca5e3"
+                "9e4c19de58c83b39"
             ]
         ]
     },
@@ -356,7 +426,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1000,
+        "x": 1320,
         "y": 520,
         "wires": [
             [
@@ -391,24 +461,24 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 640,
+        "x": 880,
         "y": 1000,
         "wires": [
             [
-                "0a2aab0e6fc1b742",
-                "543156828cfb4e5a"
+                "543156828cfb4e5a",
+                "4fd152e00c0ab0dc"
             ],
             [
-                "0a2aab0e6fc1b742",
-                "f8776667fd6fcd84"
+                "f8776667fd6fcd84",
+                "4fd152e00c0ab0dc"
             ],
             [
-                "0a2aab0e6fc1b742",
-                "e9d9cbe925f09652"
+                "e9d9cbe925f09652",
+                "4fd152e00c0ab0dc"
             ],
             [
-                "0a2aab0e6fc1b742",
-                "663da4bdee567fa2"
+                "663da4bdee567fa2",
+                "4fd152e00c0ab0dc"
             ],
             [
                 "7aef59d33e4d627c"
@@ -423,7 +493,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1050,
+        "x": 1290,
         "y": 880,
         "wires": [
             []
@@ -437,7 +507,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1070,
+        "x": 1310,
         "y": 1060,
         "wires": [
             [
@@ -453,7 +523,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1050,
+        "x": 1290,
         "y": 1000,
         "wires": [
             [
@@ -469,7 +539,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1030,
+        "x": 1270,
         "y": 940,
         "wires": [
             [
@@ -485,7 +555,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1080,
+        "x": 1320,
         "y": 1120,
         "wires": [
             []
@@ -502,7 +572,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1040,
+        "x": 1280,
         "y": 720,
         "wires": [
             [
@@ -518,7 +588,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1440,
+        "x": 1680,
         "y": 720,
         "wires": [
             []
@@ -545,7 +615,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 770,
+        "x": 1010,
         "y": 380,
         "wires": [
             [
@@ -574,7 +644,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1410,
+        "x": 1650,
         "y": 940,
         "wires": [
             []
@@ -601,7 +671,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1430,
+        "x": 1670,
         "y": 1000,
         "wires": [
             []
@@ -628,7 +698,7 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1450,
+        "x": 1690,
         "y": 1060,
         "wires": [
             []
@@ -709,7 +779,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 660,
+        "x": 650,
         "y": 1260,
         "wires": [
             [
@@ -752,7 +822,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1080,
+        "x": 1320,
         "y": 780,
         "wires": [
             [
@@ -781,11 +851,374 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1060,
+        "x": 1300,
         "y": 820,
         "wires": [
             [
                 "34f6389ac78ce5f0"
+            ]
+        ]
+    },
+    {
+        "id": "0a0504f6beef09e8",
+        "type": "server-state-changed",
+        "z": "2bd2274e789770f9",
+        "name": "Desdoma state Changed",
+        "server": "620f3a55dd509088",
+        "version": 4,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "sensor.roborock_s7_maxv_status",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "38517e7ba1480686"
+            ]
+        ]
+    },
+    {
+        "id": "38517e7ba1480686",
+        "type": "switch",
+        "z": "2bd2274e789770f9",
+        "name": "Read to Clean?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "charging",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "idle",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "paused",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 4,
+        "x": 440,
+        "y": 580,
+        "wires": [
+            [
+                "a0e4e066f07d58cf"
+            ],
+            [
+                "a0e4e066f07d58cf"
+            ],
+            [
+                "a0e4e066f07d58cf"
+            ],
+            [
+                "14f4ce8b67fa0782"
+            ]
+        ]
+    },
+    {
+        "id": "a077d7e83e2e22df",
+        "type": "change",
+        "z": "2bd2274e789770f9",
+        "name": "true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 500,
+        "wires": [
+            [
+                "0b2a1929c976a826"
+            ]
+        ]
+    },
+    {
+        "id": "14f4ce8b67fa0782",
+        "type": "change",
+        "z": "2bd2274e789770f9",
+        "name": "false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 540,
+        "wires": [
+            [
+                "0b2a1929c976a826"
+            ]
+        ]
+    },
+    {
+        "id": "51d9314cfc985fb3",
+        "type": "switch",
+        "z": "2bd2274e789770f9",
+        "name": "Away?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "home",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 410,
+        "y": 440,
+        "wires": [
+            [
+                "a0e4e066f07d58cf"
+            ],
+            [
+                "14f4ce8b67fa0782"
+            ]
+        ]
+    },
+    {
+        "id": "b557b58c18e4184e",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Alex Away",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "device_tracker.werwolf_iphone",
+        "payload": "away",
+        "payloadType": "str",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "9e4c19de58c83b39"
+            ]
+        ]
+    },
+    {
+        "id": "f4a48b5c1b57c18e",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Tatyana Away",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "device_tracker.tatsianas_iphone",
+        "payload": "away",
+        "payloadType": "str",
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "6ad554b7a44e1d7b"
+            ]
+        ]
+    },
+    {
+        "id": "396198952df570ad",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Desdemona Idle",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "sensor.roborock_s7_maxv_status",
+        "payload": "idle",
+        "payloadType": "str",
+        "x": 140,
+        "y": 760,
+        "wires": [
+            [
+                "31a98053936316fc"
+            ]
+        ]
+    },
+    {
+        "id": "5f7963d043a8dc66",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Desdemona Charging",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "sensor.roborock_s7_maxv_status",
+        "payload": "charging",
+        "payloadType": "str",
+        "x": 160,
+        "y": 800,
+        "wires": [
+            [
+                "31a98053936316fc"
+            ]
+        ]
+    },
+    {
+        "id": "89e60dbd404aa96a",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Desdemona Paused",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "sensor.roborock_s7_maxv_status",
+        "payload": "paused",
+        "payloadType": "str",
+        "x": 390,
+        "y": 760,
+        "wires": [
+            [
+                "31a98053936316fc"
+            ]
+        ]
+    },
+    {
+        "id": "0b2dd6493217403f",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Desdemona Cleaning",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "sensor.roborock_s7_maxv_status",
+        "payload": "cleaning",
+        "payloadType": "str",
+        "x": 400,
+        "y": 800,
+        "wires": [
+            [
+                "31a98053936316fc"
             ]
         ]
     }
