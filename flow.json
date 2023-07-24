@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "1340a20ad4b7ee0e",
+        "type": "tab",
+        "label": "Car",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "4fd152e00c0ab0dc",
         "type": "junction",
         "z": "2bd2274e789770f9",
@@ -101,6 +109,30 @@
             [
                 "7f2f77558a821600",
                 "5d1491aba71770e5"
+            ]
+        ]
+    },
+    {
+        "id": "992fe6318c940311",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 740,
+        "y": 420,
+        "wires": [
+            [
+                "a39a7a445c92e6f2"
+            ]
+        ]
+    },
+    {
+        "id": "eb6976c864756f6a",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 860,
+        "y": 160,
+        "wires": [
+            [
+                "7b238122fcd3249b"
             ]
         ]
     },
@@ -1373,6 +1405,279 @@
             [
                 "4fd152e00c0ab0dc"
             ]
+        ]
+    },
+    {
+        "id": "955c22b17c0b2b08",
+        "type": "inject",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 09 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "4724d8d6f030143b",
+                "ab003187fe7a5651"
+            ]
+        ]
+    },
+    {
+        "id": "4724d8d6f030143b",
+        "type": "api-current-state",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "server": "620f3a55dd509088",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "entity_id": "lock.niro_ev_door_lock",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 470,
+        "y": 160,
+        "wires": [
+            [
+                "992fe6318c940311",
+                "eb6976c864756f6a"
+            ]
+        ]
+    },
+    {
+        "id": "7b238122fcd3249b",
+        "type": "join",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1190,
+        "y": 160,
+        "wires": [
+            [
+                "55d75a78db4a0e9e",
+                "832a387b6e298e5a"
+            ]
+        ]
+    },
+    {
+        "id": "a39a7a445c92e6f2",
+        "type": "trigger",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "op1": "",
+        "op2": "0",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 840,
+        "y": 420,
+        "wires": [
+            [
+                "9ff53f29d5af6344"
+            ]
+        ]
+    },
+    {
+        "id": "9ff53f29d5af6344",
+        "type": "change",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "complete",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1000,
+        "y": 260,
+        "wires": [
+            [
+                "7b238122fcd3249b"
+            ]
+        ]
+    },
+    {
+        "id": "ab003187fe7a5651",
+        "type": "api-current-state",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "server": "620f3a55dd509088",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "entity_id": "device_tracker.niro_ev_location",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 500,
+        "y": 260,
+        "wires": [
+            [
+                "992fe6318c940311",
+                "eb6976c864756f6a"
+            ]
+        ]
+    },
+    {
+        "id": "55d75a78db4a0e9e",
+        "type": "debug",
+        "z": "1340a20ad4b7ee0e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1400,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "832a387b6e298e5a",
+        "type": "function",
+        "z": "1340a20ad4b7ee0e",
+        "name": "Prepare Telegram Message if needed",
+        "func": "// { \"lock.niro_ev_door_lock\": \"locked\", \"device_tracker.niro_ev_location\": \"home\" }\n\nif (msg.payload[\"lock.niro_ev_door_lock\"] !== \"locked\" &&\n    msg.payload[\"device_tracker.niro_ev_location\"] == \"home\") {\n    return {\n        payload: {\n            type: \"message\",\n            chatId: -911951572,\n            content: \"Car is unlocked! Don't forget to lock it!\"\n        }\n    }\n}\n\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 160,
+        "wires": [
+            [
+                "c0b04abfdcc3596d"
+            ]
+        ]
+    },
+    {
+        "id": "c0b04abfdcc3596d",
+        "type": "telegram sender",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "bot": "4a03965dbf126e99",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1910,
+        "y": 160,
+        "wires": [
+            []
         ]
     }
 ]
