@@ -59,7 +59,7 @@
         "id": "c08fd05c1609c0e0",
         "type": "server-state-changed",
         "z": "2bd2274e789770f9",
-        "name": "Alex Away",
+        "name": "Alex not Home",
         "server": "620f3a55dd509088",
         "version": 4,
         "exposeToHomeAssistant": false,
@@ -104,7 +104,7 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 120,
+        "x": 140,
         "y": 460,
         "wires": [
             [
@@ -117,7 +117,7 @@
         "id": "95c79ded7353da3d",
         "type": "server-state-changed",
         "z": "2bd2274e789770f9",
-        "name": "Tatyana Away",
+        "name": "Tatyana not Home",
         "server": "620f3a55dd509088",
         "version": 4,
         "exposeToHomeAssistant": false,
@@ -162,7 +162,7 @@
                 "valueType": "triggerId"
             }
         ],
-        "x": 130,
+        "x": 150,
         "y": 580,
         "wires": [
             [
@@ -198,7 +198,7 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1400,
+        "x": 1460,
         "y": 520,
         "wires": [
             []
@@ -228,23 +228,6 @@
                 "3e8f64d2da52db09"
             ]
         ]
-    },
-    {
-        "id": "d8c1465bb39e9497",
-        "type": "debug",
-        "z": "2bd2274e789770f9",
-        "name": "debug 3",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1340,
-        "y": 440,
-        "wires": []
     },
     {
         "id": "415d98b5466ee1b7",
@@ -367,7 +350,7 @@
         "type": "function",
         "z": "2bd2274e789770f9",
         "name": "Start Desdemona? Payload",
-        "func": "var payload = {\n    type: \"message\",\n    chatId: -911951572,\n    content: \"Do you want to start Desdemona?\",\n    options: {\n        reply_markup: JSON.stringify({\n            inline_keyboard: [\n                [\n                    {\n                        text: \"No\",\n                        callback_data: \"desdemona.no\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Kitchen x2 + rest\",\n                        callback_data: \"desdemona.kitchen.x2.rest\"\n                    },\n                    {\n                        text: \"Kitchen x2 only\",\n                        callback_data: \"desdemona.kitchen.x2\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Full\",\n                        callback_data: \"desdemona.full\"\n                    }\n                ]]\n            }\n        )\n    },\n    error: false\n}\n\nreturn {\n    \"payload\": payload\n}\n",
+        "func": "var payload = {\n    type: \"message\",\n    chatId: -911951572,\n    content: \"Do you want to start Desdemona?\",\n    options: {\n        reply_markup: JSON.stringify({\n            inline_keyboard: [\n                [\n                    {\n                        text: \"No\",\n                        callback_data: \"desdemona.no\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Full\",\n                        callback_data: \"desdemona.full\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Kitchen x2\",\n                        callback_data: \"desdemona.kitchen.x2\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Kitchen + Living\",\n                        callback_data: \"desdemona.kitchen+living\"\n                    }\n                ],\n            ]\n            }\n        )\n    },\n    error: false\n}\n\nreturn {\n    \"payload\": payload\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -377,8 +360,7 @@
         "y": 520,
         "wires": [
             [
-                "6eac1654075bfd64",
-                "d8c1465bb39e9497"
+                "6eac1654075bfd64"
             ]
         ]
     },
@@ -386,16 +368,15 @@
         "id": "16853c6578273382",
         "type": "telegram event",
         "z": "2bd2274e789770f9",
-        "name": "",
+        "name": "Start Desdemona? Callback",
         "bot": "4a03965dbf126e99",
         "event": "callback_query",
         "autoanswer": false,
-        "x": 140,
+        "x": 180,
         "y": 1000,
         "wires": [
             [
-                "0b86a3a1309c8e89",
-                "ac298ef5ec1d3d85"
+                "0b86a3a1309c8e89"
             ]
         ]
     },
@@ -404,7 +385,7 @@
         "type": "function",
         "z": "2bd2274e789770f9",
         "name": "Desdemona Callback",
-        "func": "const content = msg.payload.content;\nif (!content.startsWith(\"desdemona.\")) {\n    return;\n}\n\nconst action = content.substring(\"desdemona.\".length);\n\nconst result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: msg.payload.chatId,\n    },\n}\n\nif (action == \"no\") {\n    result.payload.content = \"Ok! Let's clean next time ;)\";\n    return [result, null, null, null, null];\n} else if (action == \"kitchen.x2.rest\") {\n    result.payload.content = \"Will clean kitchen twice first and then rest (Not implemented yet :()\";\n    return [null, result, null, null, null];\n} else if (action == \"kitchen.x2\") {\n    result.payload.content = \"Will clean kitchen twice only (Not implemented yet :()\";\n    return [null, null, result, null, null];\n} else if (action == \"full\") {\n    result.payload.content = \"Will perform full clean\";\n    return [null, null, null, result, null];\n} else {\n    result.payload.content = `Unknow command ${action}`;\n    return [null, null, null, null, msg];\n}\n",
+        "func": "const content = msg.payload.content;\nif (!content.startsWith(\"desdemona.\")) {\n    return;\n}\n\nconst action = content.substring(\"desdemona.\".length);\n\nconst commands = [\n    {\n        action: \"no\",\n        content: \"Ok! Let's clean next time ;)\"\n    },\n    {\n        action: \"full\",\n        content: \"Desdemona: starting full clean\"\n    },\n    {\n        action: \"kitchen.x2\",\n        content: \"Desdemona: clean kitchen twice\"\n    },\n    {\n        action: \"kitchen+living\",\n        content: \"Desdemona: starting clean kitchen and then leaving\"\n    },\n]\n\n// find command and it index\nconst command = commands.find(item => item.action === action) ||\n    { content: `Unknow command ${action}` };\nconst index = command != null\n    ? commands.findIndex(item => item.action === action)\n    : commands.length;\n\nconst result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: msg.payload.chatId,\n        content: command.content,\n    },\n}\n\n// return array of messages, all null except the one with the result\nreturn Array.from({ length: commands.length + 1 }, (_, i) => i == index ? result : null);",
         "outputs": 5,
         "noerr": 0,
         "initialize": "",
@@ -414,20 +395,20 @@
         "y": 1000,
         "wires": [
             [
-                "543156828cfb4e5a",
-                "0a2aab0e6fc1b742"
+                "0a2aab0e6fc1b742",
+                "543156828cfb4e5a"
             ],
             [
-                "663da4bdee567fa2",
-                "0a2aab0e6fc1b742"
+                "0a2aab0e6fc1b742",
+                "f8776667fd6fcd84"
             ],
             [
-                "e9d9cbe925f09652",
-                "0a2aab0e6fc1b742"
+                "0a2aab0e6fc1b742",
+                "e9d9cbe925f09652"
             ],
             [
-                "f8776667fd6fcd84",
-                "0a2aab0e6fc1b742"
+                "0a2aab0e6fc1b742",
+                "663da4bdee567fa2"
             ],
             [
                 "7aef59d33e4d627c"
@@ -452,14 +433,16 @@
         "id": "663da4bdee567fa2",
         "type": "telegram sender",
         "z": "2bd2274e789770f9",
-        "name": "Reply: Kitchen x2 + Rest",
+        "name": "Reply: Kitchen and Living",
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
         "x": 1070,
-        "y": 940,
+        "y": 1060,
         "wires": [
-            []
+            [
+                "34f6389ac78ce5f0"
+            ]
         ]
     },
     {
@@ -473,7 +456,9 @@
         "x": 1050,
         "y": 1000,
         "wires": [
-            []
+            [
+                "927aed1a47bb6481"
+            ]
         ]
     },
     {
@@ -485,7 +470,7 @@
         "haserroroutput": false,
         "outputs": 1,
         "x": 1030,
-        "y": 1060,
+        "y": 940,
         "wires": [
             [
                 "2d3a7acd14c5e9d6"
@@ -533,28 +518,11 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1300,
+        "x": 1440,
         "y": 720,
         "wires": [
             []
         ]
-    },
-    {
-        "id": "ac298ef5ec1d3d85",
-        "type": "debug",
-        "z": "2bd2274e789770f9",
-        "name": "debug 5",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 520,
-        "y": 1200,
-        "wires": []
     },
     {
         "id": "12fbf16a28813b73",
@@ -589,7 +557,7 @@
         "id": "2d3a7acd14c5e9d6",
         "type": "api-call-service",
         "z": "2bd2274e789770f9",
-        "name": "Full Clean",
+        "name": "Clean: Full",
         "server": "620f3a55dd509088",
         "version": 5,
         "debugenabled": false,
@@ -606,10 +574,219 @@
         "mustacheAltTags": false,
         "outputProperties": [],
         "queue": "none",
-        "x": 1380,
+        "x": 1410,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "927aed1a47bb6481",
+        "type": "api-call-service",
+        "z": "2bd2274e789770f9",
+        "name": "Clean: Kitchen x2",
+        "server": "620f3a55dd509088",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "vacuum",
+        "service": "send_command",
+        "areaId": [],
+        "deviceId": [
+            "89137e03828a27c3b3520ce97c94ad7f"
+        ],
+        "entityId": [],
+        "data": "{\"command\":\"app_segment_clean\",\"params\":[{\"segments\":[18]},{\"repeat\":2}]}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1430,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "34f6389ac78ce5f0",
+        "type": "api-call-service",
+        "z": "2bd2274e789770f9",
+        "name": "Clean: Kitchen and Living",
+        "server": "620f3a55dd509088",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "vacuum",
+        "service": "send_command",
+        "areaId": [],
+        "deviceId": [
+            "89137e03828a27c3b3520ce97c94ad7f"
+        ],
+        "entityId": [],
+        "data": "{\"command\":\"app_segment_clean\",\"params\":[{\"segments\":[18,22,19]},{\"repeat\":1}]}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1450,
         "y": 1060,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "7623333fe8162570",
+        "type": "server-state-changed",
+        "z": "2bd2274e789770f9",
+        "name": "Desdoma Returning Home",
+        "server": "620f3a55dd509088",
+        "version": 4,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "sensor.roborock_s7_maxv_status",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "returning_home",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 2,
+        "output_only_on_state_change": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 170,
+        "y": 1260,
+        "wires": [
+            [
+                "e7abb81ca13ced55"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e7abb81ca13ced55",
+        "type": "function",
+        "z": "2bd2274e789770f9",
+        "name": "Returning Home Message",
+        "func": "return {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: -911951572,\n        content: \"Desdemona: Returning home\",\n    },\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 1260,
+        "wires": [
+            [
+                "d8e4de1c6b04d062"
+            ]
+        ]
+    },
+    {
+        "id": "d8e4de1c6b04d062",
+        "type": "telegram sender",
+        "z": "2bd2274e789770f9",
+        "name": "Reply: Returning Home",
+        "bot": "4a03965dbf126e99",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1070,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ef62f8d04bdad2ac",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Run Kitchen x2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1080,
+        "y": 780,
+        "wires": [
+            [
+                "927aed1a47bb6481"
+            ]
+        ]
+    },
+    {
+        "id": "c242ae7b3884182b",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Run Kitchen amd Living",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 820,
+        "wires": [
+            [
+                "34f6389ac78ce5f0"
+            ]
         ]
     }
 ]
