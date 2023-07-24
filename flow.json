@@ -116,7 +116,7 @@
         "id": "992fe6318c940311",
         "type": "junction",
         "z": "1340a20ad4b7ee0e",
-        "x": 740,
+        "x": 1380,
         "y": 420,
         "wires": [
             [
@@ -128,11 +128,24 @@
         "id": "eb6976c864756f6a",
         "type": "junction",
         "z": "1340a20ad4b7ee0e",
-        "x": 860,
+        "x": 1500,
         "y": 160,
         "wires": [
             [
                 "7b238122fcd3249b"
+            ]
+        ]
+    },
+    {
+        "id": "4bc470be7f7422f2",
+        "type": "junction",
+        "z": "1340a20ad4b7ee0e",
+        "x": 860,
+        "y": 160,
+        "wires": [
+            [
+                "4724d8d6f030143b",
+                "ab003187fe7a5651"
             ]
         ]
     },
@@ -1428,12 +1441,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 190,
+        "x": 150,
         "y": 160,
         "wires": [
             [
-                "4724d8d6f030143b",
-                "ab003187fe7a5651"
+                "91f5922e26ae5287"
             ]
         ]
     },
@@ -1479,7 +1491,7 @@
         "override_payload": "msg",
         "entity_location": "data",
         "override_data": "msg",
-        "x": 470,
+        "x": 1110,
         "y": 160,
         "wires": [
             [
@@ -1508,11 +1520,10 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 1190,
+        "x": 1830,
         "y": 160,
         "wires": [
             [
-                "55d75a78db4a0e9e",
                 "832a387b6e298e5a"
             ]
         ]
@@ -1534,7 +1545,7 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 840,
+        "x": 1480,
         "y": 420,
         "wires": [
             [
@@ -1571,7 +1582,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1000,
+        "x": 1640,
         "y": 260,
         "wires": [
             [
@@ -1621,7 +1632,7 @@
         "override_payload": "msg",
         "entity_location": "data",
         "override_data": "msg",
-        "x": 500,
+        "x": 1140,
         "y": 260,
         "wires": [
             [
@@ -1629,23 +1640,6 @@
                 "eb6976c864756f6a"
             ]
         ]
-    },
-    {
-        "id": "55d75a78db4a0e9e",
-        "type": "debug",
-        "z": "1340a20ad4b7ee0e",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1400,
-        "y": 60,
-        "wires": []
     },
     {
         "id": "832a387b6e298e5a",
@@ -1658,7 +1652,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1570,
+        "x": 2210,
         "y": 160,
         "wires": [
             [
@@ -1674,10 +1668,62 @@
         "bot": "4a03965dbf126e99",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1910,
+        "x": 2550,
         "y": 160,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "91f5922e26ae5287",
+        "type": "api-call-service",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "server": "620f3a55dd509088",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "kia_uvo",
+        "service": "force_update",
+        "areaId": [],
+        "deviceId": [],
+        "entityId": [],
+        "data": "{\"device_id\":\"3b9cdb32b11a6c821c01432b302dd5c3\"}",
+        "dataType": "json",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "last",
+        "x": 420,
+        "y": 160,
+        "wires": [
+            [
+                "893b0432f14a01ec"
+            ]
+        ]
+    },
+    {
+        "id": "893b0432f14a01ec",
+        "type": "delay",
+        "z": "1340a20ad4b7ee0e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 160,
+        "wires": [
+            [
+                "4bc470be7f7422f2"
+            ]
         ]
     }
 ]
