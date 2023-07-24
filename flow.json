@@ -35,7 +35,7 @@
         "type": "telegram bot",
         "botname": "Puzynia Home",
         "usernames": "",
-        "chatids": "109994530",
+        "chatids": "",
         "baseapiurl": "",
         "updatemode": "polling",
         "pollinterval": "300",
@@ -367,7 +367,7 @@
         "type": "function",
         "z": "2bd2274e789770f9",
         "name": "Start Desdemona? Payload",
-        "func": "var payload = {\n    type: \"message\",\n    chatId: -911951572,\n    content: \"Do you want to start Desdomna?\",\n    options: {\n        reply_markup: JSON.stringify({\n            inline_keyboard: [\n                [\n                    {\n                        text: \"No\",\n                        callback_data: \"desdemona.no\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Kitchen x2 + rest\",\n                        callback_data: \"desdemona.kitchen.x2.rest\"\n                    },\n                    {\n                        text: \"Kitchen x2 only\",\n                        callback_data: \"desdemona.kitchen.x2\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Full\",\n                        callback_data: \"desdemona.full\"\n                    }\n                ]]\n            }\n        )\n    },\n    error: false\n}\n\nreturn {\n    \"payload\": payload\n}\n",
+        "func": "var payload = {\n    type: \"message\",\n    chatId: -911951572,\n    content: \"Do you want to start Desdemona?\",\n    options: {\n        reply_markup: JSON.stringify({\n            inline_keyboard: [\n                [\n                    {\n                        text: \"No\",\n                        callback_data: \"desdemona.no\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Kitchen x2 + rest\",\n                        callback_data: \"desdemona.kitchen.x2.rest\"\n                    },\n                    {\n                        text: \"Kitchen x2 only\",\n                        callback_data: \"desdemona.kitchen.x2\"\n                    }\n                ],\n                [\n                    {\n                        text: \"Full\",\n                        callback_data: \"desdemona.full\"\n                    }\n                ]]\n            }\n        )\n    },\n    error: false\n}\n\nreturn {\n    \"payload\": payload\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -394,7 +394,8 @@
         "y": 1000,
         "wires": [
             [
-                "0b86a3a1309c8e89"
+                "0b86a3a1309c8e89",
+                "ac298ef5ec1d3d85"
             ]
         ]
     },
@@ -403,13 +404,13 @@
         "type": "function",
         "z": "2bd2274e789770f9",
         "name": "Desdemona Callback",
-        "func": "const content = msg.payload.content;\nif (!content.startsWith(\"desdemona.\")) {\n    return;\n}\n\nconst action = content.substring(\"desdemona.\".length);\n\nconst result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: msg.payload.chatId,\n    },\n}\n\nif (action == \"no\") {\n    result.payload.content = \"Ok! Let's clean next time ;)\";\n    return [result, null, null, null, null];\n} else if (action == \"kitchen.x2.rest\") {\n    result.payload.content = \"Will clean kitchen twice first and then rest (Not implemented yet :()\";\n    return [null, result, null, null, null];\n} else if (action == \"kitchen.x2\") {\n    result.payload.content = \"Will clean kitchen twice only (Not implemented yet :()\";\n    return [null, null, result, null, null];\n} else if (action == \"full\") {\n    result.payload.content = \"Will perform full clean (Not implemented yet :()\";\n    return [null, null, null, result, null];\n} else {\n    result.payload.content = `Unknow command ${action}`;\n    return [null, null, null, null, msg];\n}\n",
+        "func": "const content = msg.payload.content;\nif (!content.startsWith(\"desdemona.\")) {\n    return;\n}\n\nconst action = content.substring(\"desdemona.\".length);\n\nconst result = {\n    callbackQuery: msg,\n    payload: {\n        type: \"message\",\n        chatId: msg.payload.chatId,\n    },\n}\n\nif (action == \"no\") {\n    result.payload.content = \"Ok! Let's clean next time ;)\";\n    return [result, null, null, null, null];\n} else if (action == \"kitchen.x2.rest\") {\n    result.payload.content = \"Will clean kitchen twice first and then rest (Not implemented yet :()\";\n    return [null, result, null, null, null];\n} else if (action == \"kitchen.x2\") {\n    result.payload.content = \"Will clean kitchen twice only (Not implemented yet :()\";\n    return [null, null, result, null, null];\n} else if (action == \"full\") {\n    result.payload.content = \"Will perform full clean\";\n    return [null, null, null, result, null];\n} else {\n    result.payload.content = `Unknow command ${action}`;\n    return [null, null, null, null, msg];\n}\n",
         "outputs": 5,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
+        "x": 640,
         "y": 1000,
         "wires": [
             [
@@ -444,9 +445,7 @@
         "x": 1050,
         "y": 880,
         "wires": [
-            [
-                "4988483d4406e7f1"
-            ]
+            []
         ]
     },
     {
@@ -460,9 +459,7 @@
         "x": 1070,
         "y": 940,
         "wires": [
-            [
-                "4988483d4406e7f1"
-            ]
+            []
         ]
     },
     {
@@ -476,9 +473,7 @@
         "x": 1050,
         "y": 1000,
         "wires": [
-            [
-                "4988483d4406e7f1"
-            ]
+            []
         ]
     },
     {
@@ -493,7 +488,7 @@
         "y": 1060,
         "wires": [
             [
-                "4988483d4406e7f1"
+                "2d3a7acd14c5e9d6"
             ]
         ]
     },
@@ -508,27 +503,8 @@
         "x": 1080,
         "y": 1120,
         "wires": [
-            [
-                "4988483d4406e7f1"
-            ]
+            []
         ]
-    },
-    {
-        "id": "4988483d4406e7f1",
-        "type": "debug",
-        "z": "2bd2274e789770f9",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1520,
-        "y": 980,
-        "wires": []
     },
     {
         "id": "0a2aab0e6fc1b742",
@@ -560,9 +536,80 @@
         "x": 1300,
         "y": 720,
         "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac298ef5ec1d3d85",
+        "type": "debug",
+        "z": "2bd2274e789770f9",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "12fbf16a28813b73",
+        "type": "inject",
+        "z": "2bd2274e789770f9",
+        "name": "Emulate Desdemona flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 770,
+        "y": 380,
+        "wires": [
             [
-                "4988483d4406e7f1"
+                "3e8f64d2da52db09"
             ]
+        ]
+    },
+    {
+        "id": "2d3a7acd14c5e9d6",
+        "type": "api-call-service",
+        "z": "2bd2274e789770f9",
+        "name": "Full Clean",
+        "server": "620f3a55dd509088",
+        "version": 5,
+        "debugenabled": false,
+        "domain": "vacuum",
+        "service": "start",
+        "areaId": [],
+        "deviceId": [
+            "89137e03828a27c3b3520ce97c94ad7f"
+        ],
+        "entityId": [],
+        "data": "",
+        "dataType": "jsonata",
+        "mergeContext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1380,
+        "y": 1060,
+        "wires": [
+            []
         ]
     }
 ]
